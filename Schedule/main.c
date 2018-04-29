@@ -14,11 +14,18 @@ typedef struct list {
     struct list *next;
 } Node;
 
+void push_beginning(Node *first_node, task *new_task) {
+    Node **head = (Node**)malloc(sizeof(struct list));
+    first_node->task = *new_task;
+    first_node->next = *head;
+    *head = first_node;
+}
+
 void print_info(Node *head) {
     Node *iterator;
     iterator = head;
     while (iterator->next!=NULL) {
-        //printf("%s", iterator->task.name);
+        printf("%s", iterator->task.name);
         printf("%d", iterator->task.start_time);
         printf("%d", iterator->task.end_time);
         iterator = iterator->next;
@@ -27,32 +34,30 @@ void print_info(Node *head) {
 
 int main()
 {
-    int i=1;
+    int i;
     int n=3;
-    char str[20];
-    int num;
     //printf("n = ");
     //scanf("%d", &n);
-    task *new_element = malloc(sizeof(struct schedule));
-    Node *head = malloc(sizeof(struct list));
-    head->next = NULL;
+
+    //a node for the activities (schedule)
+    task *new_task = (task*)malloc(sizeof(struct schedule));
+    //an actual node
+    Node *first_node = (Node*)malloc(sizeof(struct list));
+   // adding elements
+    push_beginning(first_node, new_task);
 
     //for (i=1; i<=n; i++) {
-     //printf("Activity: ");
-     //scanf("%s", str);
-     printf("Start time: ");
-     scanf("%d", &num);
-     printf("End time: ");
-     scanf("%d", &new_element->end_time);
+/*    head->next = NULL;
+        printf("Activity no. %d: ", i);
+        scanf("%s", new_node->name);
+        printf("Start time: ");
+        scanf("%d", &new_node->start_time);
+        printf("End time: ");
+        scanf("%d", &new_node->end_time);
     //}
+*/
+    print_info(first_node);
 
-    new_element->start_time = num;
-    //printf("%d", new_element->start_time);
-    print_info(head);
-//Greedy implementation
-//First we must sort the activities based on their ending times
-//We will use a Counting Sort for this matter, since we're only dealing with numbers
-
-    free(head);
+    free(first_node);
 return 0;
 }
