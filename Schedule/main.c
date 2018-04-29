@@ -7,12 +7,19 @@ struct task {
       int start_time;
       int end_time;
 };
-//I have no idea how these pointers work
+//As you could have probably guessed by now, WE have no idea how these pointers work.
 void Counting_sort(int array[]) {
-  int i=0;
- // for (i=0; i<strlen(&array); i++) {
-    printf("| %d |", &array[i]);
-  //}
+    int i=0;
+    int j;
+    int count[10];
+    for (j=0; j<(strlen(&array)); j++) {
+        count[j] = &array[i];
+    }
+
+
+    for (j=0; j<(strlen(&array)); j++) {
+        printf("= %d =", count[j]);
+    }
 }
 
 int main()
