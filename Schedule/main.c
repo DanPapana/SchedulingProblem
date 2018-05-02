@@ -71,6 +71,55 @@ Node *sort_end(Node *head) {
       return parent;
 }
 
+Node *greedy(Node *head) {
+     Node *parent = head;				
+     Node *iterator = head;			
+     printf("\nTHE LIST OF TODAY'S ACTIVITIES:\n");	
+     print_node(iterator);
+          while (iterator != NULL) {	
+               while (iterator != parent) {					     		
+                     if (parent->info.end_time <= iterator->info.start_time) {													
+                           print_node(iterator);				     				
+                     } 	
+                     parent = parent->next;
+               }
+                iterator = iterator->next;				}		
+}
+
+Node *free_list(Node *head) {
+      Node *iterator = *head;
+      Node *parent;
+      while (iterator != NULL) {
+            parent = iterator;
+            free(parent);
+      }
+      return NULL;
+}
+
+char* activities(int choice) {
+      switch(choice) {	
+            case 1: return "Running";								
+            case 2: return "Reading"							
+            case 3: return "Swimming";								
+            case 4: return "Drinking a cup of tea";	
+            case 5: return "Napping";	
+            case 6: return "Drinking a glass of water";
+            case 7: return "Drinking a cup of coffee";
+            case 8: return "Drinking a pint of beer";		
+            case 9: return "Drinking a shot of tequila";
+            case 10: return "Hiking";	
+            case 11: return "Procrastinating";
+            case 12: return "Running out of ideas";
+            case 13: return "Taking these activity names seriously";						
+            case 14: return "Cooking";
+            case 15: return "Praying to the all-mighty";
+            case 16: return "Drinking a glass of milk";
+            case 17: return "Wrongly thinking that I'm somewhat funny";
+            case 18: return "Freaking out";
+            case 19: return "Studying";
+            case 20: return "Eating";
+      }
+}
 int main()
 {
     int i=1;
