@@ -120,33 +120,52 @@ char* activities(int choice) {
             case 20: return "Eating";
       }
 }
+
 int main()
 {
-    int i=1;
-    int n=3;
-    //printf("n = ");
-    //scanf("%d", &n);
-
-    Node **head = (Node**)malloc(sizeof(struct list));
-    //a node for the activities (schedule)
-    task *new_task = (task*)malloc(sizeof(struct schedule));
-    //an actual node
-    Node *new_node = (Node*)malloc(sizeof(struct list));
-    // adding elements
-    push_beginning(new_node, new_task);
-
-    //for (i=1; i<=n; i++) {
-
-        printf("Activity no. %d: ", i);
-        scanf("%s", new_task->name);
-        printf("Start time: ");
-        scanf("%d", &new_task->start_time);
-        printf("End time: ");
-        scanf("%d", &new_task->end_time);
-    //}
-
-    print_info(new_node);
-
-    free(head);
+    int i = 1;
+    int n = 10;			
+    int r_start; //random starting time
+    int r_end; //random ending time			
+    int s_range = 0; //starting range
+    int f_range = 25; //finishing range
+    int activity;
+			
+				/*
+    printf("n = ");
+    scanf("%d", &n);
+				*/
+				
+    Node *head;				
+    init(&head);
+    //information node
+    Task *new_task = (Task*)malloc(sizeof(Task));	
+	//I have introduced some false values which would trigger the while loop
+    while (s_range >= f_range || s_range <= 0 || f_range > 24) { 							
+        printf("\nInsert the working hours (1 to 24):");
+        printf("\nStarting time: ");
+        scanf("%d", &s_range);
+        printf("Ending time: ");
+        scanf("%d", &f_range);
+    }
+				
+    while (i <= n) {
+        while (r_start >= r_end || r_start == new_task->start_time) {
+            srand(time(NULL)); 		
+            r_start = s_range + rand()/(RAND_MAX/(f_range - s_range +1) + 1);
+            r_end = s_range + rand()/(RAND_MAX/(f_range - s_range +1) + 1);	
+        }		
+        activity = 1 + rand()/(RAND_MAX/(20 - 1 + 1) + 1);    
+        new_task->start_time = r_start;
+        new_task->end_time = r_end;
+        new_task->name = activities(activity);
+        head = push_beginning(head, new_task);
+        i++;
+    }
+				
+    head = sort_end(head);
+	print_info(head);
+    head = greedy(head);
+    head = free_list(head);
 return 0;
 }
