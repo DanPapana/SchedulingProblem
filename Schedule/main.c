@@ -4,32 +4,71 @@
 #include <assert.h>
 
 typedef struct schedule {
-      char name[20];
+      char *name;
       int start_time;
       int end_time;
-} task;
+} Task;
 
 typedef struct list {
-    struct schedule task;
+    Task info;
     struct list *next;
 } Node;
 
-void push_beginning(Node *head, task *new_task) {
-    Node *new_node = malloc(sizeof(struct list));
-    new_node->task = *new_task;
-    new_node->next = head->next;
-    head->next = new_node;
+void init(Node **head) {
+      *head = NULL;
+}
+
+void push_beginning(Node *head, Task *info) {
+    Node *new_node = malloc(sizeof(Node));
+    new_node->info = *info;
+    new_node->next = list;
+    list = new_node;
+    return list;
 }
 
 void print_info(Node *head) {
     Node *iterator;
-    iterator = head;
-    while (iterator->next!=NULL) {
-        printf("%s ", iterator->task.name);
-        printf("%d ", iterator->task.start_time);
-        printf("%d ", iterator->task.end_time);
+    iterator = head;	
+    printf("\nTODAY'S ACTIVITIES ARE:\n");
+    while (iterator != NULL) {
+        printf("\nActivity: %s\n", iterator->info.name);
+        printf("Starting time: %d:00\n", iterator->info.start_time);
+        printf("Ending time: %d:00\n", iterator->info.end_time);
         iterator = iterator->next;
     }
+}
+
+void swap(Node *a, Node *b) {		
+      Task temp;	
+      temp = a->info;	
+      a->info = b->info;	
+      b->info = temp;
+}
+
+void print_node(Node *head) {		
+      if (head != NULL) {					
+            printf("\n==============================");			
+            printf("\nActivity: %s", head->info.name);			
+            printf("\nStarting time: %d:00", head->info.start_time);			
+            printf("\nEnding time: %d:00", head->info.end_time);  	
+      }
+}
+
+//A shameless bubble sort
+Node *sort_end(Node *head) {				
+      Node *parent = head;				
+      Node *iterator = head->next;			  
+      while (iterator != NULL) {
+            while (iterator != parent) {		
+                  if ((iterator->info.end_time < parent->info.end_time)) {
+                        swap(iterator, parent);	
+                  }
+                  parent = parent->next;
+             }
+             parent = head;            	
+             iterator = iterator->next;	
+      }			
+      return parent;
 }
 
 int main()
