@@ -145,7 +145,7 @@ char* activities(int choice) {
 int main()
 {
     int i = 0;
-    int n = 5;
+    int n = 2;
     int r_start; //random starting time
     int r_end; //random ending time
     int s_range = 0; //starting range
