@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
+#include <time.h>
 
-typedef struct schedule {
-      char *name;
-      int start_time;
-      int end_time;
+typedef struct {
+    char *name;
+    int start_time;
+    int end_time;
 } Task;
 
 typedef struct list {
@@ -15,10 +15,10 @@ typedef struct list {
 } Node;
 
 void init(Node **head) {
-      *head = NULL;
+    *head = NULL;
 }
 
-void push_beginning(Node *head, Task *info) {
+Node* push_beginning(Node *list, Task *info) {
     Node *new_node = malloc(sizeof(Node));
     new_node->info = *info;
     new_node->next = list;
@@ -28,7 +28,7 @@ void push_beginning(Node *head, Task *info) {
 
 void print_info(Node *head) {
     Node *iterator;
-    iterator = head;	
+    iterator = head;
     printf("\nTODAY'S ACTIVITIES ARE:\n");
     while (iterator != NULL) {
         printf("\nActivity: %s\n", iterator->info.name);
@@ -38,134 +38,157 @@ void print_info(Node *head) {
     }
 }
 
-void swap(Node *a, Node *b) {		
-      Task temp;	
-      temp = a->info;	
-      a->info = b->info;	
-      b->info = temp;
+void swap(Node *a, Node *b) {
+    Task temp;
+    temp = a->info;
+    a->info = b->info;
+    b->info = temp;
 }
 
-void print_node(Node *head) {		
-      if (head != NULL) {					
-            printf("\n==============================");			
-            printf("\nActivity: %s", head->info.name);			
-            printf("\nStarting time: %d:00", head->info.start_time);			
-            printf("\nEnding time: %d:00", head->info.end_time);  	
-      }
+void print_node(Node *head) {
+    if (head != NULL) {
+        printf("\n==============================");
+        printf("\nActivity: %s", head->info.name);
+        printf("\nStarting time: %d:00", head->info.start_time);
+        printf("\nEnding time: %d:00", head->info.end_time);
+    }
 }
 
 //A shameless bubble sort
-Node *sort_end(Node *head) {				
-      Node *parent = head;				
-      Node *iterator = head->next;			  
-      while (iterator != NULL) {
-            while (iterator != parent) {		
-                  if ((iterator->info.end_time < parent->info.end_time)) {
-                        swap(iterator, parent);	
-                  }
-                  parent = parent->next;
-             }
-             parent = head;            	
-             iterator = iterator->next;	
-      }			
-      return parent;
+Node *sort_end(Node *head) {
+    Node *parent = head;
+    Node *iterator = head->next;
+    while (iterator != NULL) {
+        while (iterator != parent) {
+            if ((iterator->info.end_time < parent->info.end_time)) {
+                swap(iterator, parent);
+            }
+            parent = parent->next;
+        }
+        parent = head;
+        iterator = iterator->next;
+    }
+    return parent;
 }
 
-Node *greedy(Node *head) {
-     Node *parent = head;				
-     Node *iterator = head;			
-     printf("\nTHE LIST OF TODAY'S ACTIVITIES:\n");	
-     print_node(iterator);
-          while (iterator != NULL) {	
-               while (iterator != parent) {					     		
-                     if (parent->info.end_time <= iterator->info.start_time) {													
-                           print_node(iterator);				     				
-                     } 	
-                     parent = parent->next;
-               }
-                iterator = iterator->next;				}		
+void *greedy(Node *head) {
+    Node *parent = head;
+    Node *iterator = head;
+    printf("\nTHE LIST OF TODAY'S ACTIVITIES:\n");
+    print_node(parent);
+    while (iterator != NULL) {
+        while (iterator != parent) {
+            if (parent->info.end_time <= iterator->info.start_time) {
+                print_node(iterator);
+                printf("*");
+            }
+            parent = parent->next;
+        }
+        iterator = iterator->next;
+    }
 }
 
 Node *free_list(Node *head) {
-      Node *iterator = *head;
-      Node *parent;
-      while (iterator != NULL) {
-            parent = iterator;
-            free(parent);
-      }
-      return NULL;
+    Node *iterator = head;
+    Node *parent;
+    while (iterator != NULL) {
+        parent = iterator;
+        free(parent);
+    }
+    return NULL;
 }
 
 char* activities(int choice) {
-      switch(choice) {	
-            case 1: return "Running";								
-            case 2: return "Reading"							
-            case 3: return "Swimming";								
-            case 4: return "Drinking a cup of tea";	
-            case 5: return "Napping";	
-            case 6: return "Drinking a glass of water";
-            case 7: return "Drinking a cup of coffee";
-            case 8: return "Drinking a pint of beer";		
-            case 9: return "Drinking a shot of tequila";
-            case 10: return "Hiking";	
-            case 11: return "Procrastinating";
-            case 12: return "Running out of ideas";
-            case 13: return "Taking these activity names seriously";						
-            case 14: return "Cooking";
-            case 15: return "Praying to the all-mighty";
-            case 16: return "Drinking a glass of milk";
-            case 17: return "Wrongly thinking that I'm somewhat funny";
-            case 18: return "Freaking out";
-            case 19: return "Studying";
-            case 20: return "Eating";
-      }
+    switch(choice) {
+    case 1:
+        return "Running";
+    case 2:
+        return "Reading";
+    case 3:
+        return "Swimming";
+    case 4:
+        return "Drinking a cup of tea";
+    case 5:
+        return "Napping";
+    case 6:
+        return "Drinking a glass of water";
+    case 7:
+        return "Drinking a cup of coffee";
+    case 8:
+        return "Drinking a pint of beer";
+    case 9:
+        return "Watching YouTube videos";
+    case 10:
+        return "Hiking";
+    case 11:
+        return "Procrastinating";
+    case 12:
+        return "Running out of ideas";
+    case 13:
+        return "Taking these activity names seriously";
+    case 14:
+        return "Cooking";
+    case 15:
+        return "Praying to the all-mighty";
+    case 16:
+        return "Drinking a glass of milk";
+    case 17:
+        return "Wrongly thinking that I'm somewhat funny";
+    case 18:
+        return "Freaking out";
+    case 19:
+        return "Studying";
+    case 20:
+        return "Eating";
+    }
 }
 
 int main()
 {
-    int i = 1;
-    int n = 10;			
+    int i = 0;
+    int n = 10;
     int r_start; //random starting time
-    int r_end; //random ending time			
+    int r_end; //random ending time
     int s_range = 0; //starting range
     int f_range = 25; //finishing range
     int activity;
-			
-				/*
+
+    /*
     printf("n = ");
     scanf("%d", &n);
-				*/
-				
-    Node *head;				
+    */
+
+    Node *head;
     init(&head);
-    //information node
-    Task *new_task = (Task*)malloc(sizeof(Task));	
-	//I have introduced some false values which would trigger the while loop
-    while (s_range >= f_range || s_range <= 0 || f_range > 24) { 							
+
+    Task *new_task = (Task*)malloc(sizeof(Task));
+
+    //I have introduced some values which would trigger the while loop
+    while (s_range >= f_range || s_range <= 0 || f_range > 24) {
         printf("\nInsert the working hours (1 to 24):");
         printf("\nStarting time: ");
         scanf("%d", &s_range);
         printf("Ending time: ");
         scanf("%d", &f_range);
     }
-				
-    while (i <= n) {
+
+    while (i < n) {
         while (r_start >= r_end || r_start == new_task->start_time) {
-            srand(time(NULL)); 		
+            srand(time(NULL));
             r_start = s_range + rand()/(RAND_MAX/(f_range - s_range +1) + 1);
-            r_end = s_range + rand()/(RAND_MAX/(f_range - s_range +1) + 1);	
-        }		
-        activity = 1 + rand()/(RAND_MAX/(20 - 1 + 1) + 1);    
+            r_end = s_range + rand()/(RAND_MAX/(f_range - s_range +1) + 1);
+        }
+        activity = 1 + rand()/(RAND_MAX/(20 - 1 + 1) + 1);
         new_task->start_time = r_start;
         new_task->end_time = r_end;
         new_task->name = activities(activity);
         head = push_beginning(head, new_task);
         i++;
     }
-				
+
     head = sort_end(head);
-	print_info(head);
+    print_info(head);
     head = greedy(head);
     head = free_list(head);
-return 0;
+    return 0;
 }
