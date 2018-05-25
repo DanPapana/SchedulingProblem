@@ -74,7 +74,10 @@ Node *sort_end(Node *head) {
 Node *greedy(Node *head) {
     Node *parent = head;
     Node *iterator = head;
+    printf("\n*********************************************");
     printf("\nTHE LIST OF TODAY'S ACTIVITIES:\n");
+    printf("**********************************************");
+
     print_node(parent);
     while (iterator != NULL) {
         while (iterator != parent) {
@@ -145,18 +148,16 @@ char* activities(int choice) {
 int main()
 {
     int i = 0;
-    int n = 2;
+    int n = 10;
     int r_start; //random starting time
     int r_end; //random ending time
     int s_range = 0; //starting range
     int f_range = 25; //finishing range
     int activity;
-
     /*
     printf("n = ");
     scanf("%d", &n);
     */
-
     Node *head;
     init(&head);
 
@@ -172,12 +173,14 @@ int main()
     }
 
     while (i < n) {
-        while (r_start >= r_end || r_start == new_task->start_time) {
-            srand(time(NULL));
-            r_start = s_range + rand()/(RAND_MAX/(f_range - s_range +1) + 1);
-            r_end = s_range + rand()/(RAND_MAX/(f_range - s_range +1) + 1);
+        while (r_start >= r_end || r_end > 24 || r_start == new_task->start_time) {
+            srand((unsigned)time(NULL));
+            // r_start = s_range + rand()/(RAND_MAX/(f_range - s_range +1) + 1);
+            // r_end = s_range + rand()/(RAND_MAX/(f_range - s_range +1) + 1);
+            r_start = s_range + rand() % (f_range - s_range);
+            r_end = r_start + rand() % (f_range - s_range);
         }
-        activity = 1 + rand()/(RAND_MAX/(20 - 1 + 1) + 1);
+        activity = 1 + rand() % 20;
         new_task->start_time = r_start;
         new_task->end_time = r_end;
         new_task->name = activities(activity);
