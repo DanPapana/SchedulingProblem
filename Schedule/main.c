@@ -89,6 +89,54 @@ Node *greedy(Node *head) {
     }
 }
 
+Node *find_min(Node *head) {
+    Node *iterator = head;
+    Node *min = head;
+    while (iterator->next != NULL) {
+
+        if (iterator->info.start_time == min->info.start_time) {
+            if (iterator->info.end_time < min->info.end_time) {
+                min = iterator;
+            }
+        } else {
+            if (iterator->info.start_time < min->info.start_time) {
+                min = iterator;
+            }
+        }
+        iterator = iterator->next;
+    }
+    return min;
+}
+
+Node *backtrack(Node *head) {
+    Node *solution = malloc(sizeof(Node));
+    Node *min;
+    Node *parent = head;
+    Node *iterator_1 = head;
+    Node *iterator_2 = head;
+
+    while (iterator_1->next != NULL) {
+        min = find_min(head);
+        while (iterator_2->next != NULL) {
+            iterator_2 = iterator_2->next;
+            if (min->info.end_time <= iterator_2->info.end_time) {
+                parent->next = solution;
+                parent = parent->next;
+                solution->next = min;
+                solution = solution->next;
+                print_node(solution);
+            }
+            else
+            {
+                solution = parent;
+            }
+        }
+        iterator_1 = iterator_1->next;
+    }
+   // print_node(solution);
+   // return solution;
+}
+
 Node *free_list(Node *head) {
     Node *iterator = head;
     Node *parent;
@@ -147,7 +195,7 @@ char* activities(int choice) {
 int main()
 {
     int i = 0;
-    int n = 5;
+    int n = 2;
     int r_start; //random starting time
     int r_end; //random ending time
     int s_range = 0; //starting range
@@ -186,9 +234,11 @@ int main()
         head = push_beginning(head, new_task);
         i++;
     }
-    head = sort_end(head);
+    //head = sort_end(head);
     print_info(head);
-    head = greedy(head);
+    printf("B E H O L D");
+    head = backtrack(head);
+    //head = greedy(head);
     head = free_list(head);
     return 0;
 }
