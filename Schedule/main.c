@@ -116,8 +116,18 @@ Node *backtrack(Node *head) {
     Node *iterator_2 = head;
 
     while (iterator != NULL) {
-        min = find_min(iterator);
+        printf("\nIT: %d", iterator->info.start_time);
+        if (iterator->info.start_time == min->info.start_time) {
+            if (iterator->info.end_time < min->info.end_time) {
+                min->info = iterator->info;
+            }
+        }
+        else if (iterator->info.start_time < min->info.start_time) {
+            min->info = iterator->info;
+        }
+        iterator = iterator->next;
         print_node(min);
+    }
         /*
         while (iterator_2 != NULL) {
             if (min->info.end_time <= iterator_2->info.end_time) {
@@ -132,17 +142,8 @@ Node *backtrack(Node *head) {
             iterator_2 = iterator_2->next;
         }
         	*/
-         /*
-         while (iterator_1 != NULL) {
-            if (iterator_1->info.start_time == min->info.start_time && iterator_1->info.end_time == min->info.end_time) {
-                iterator_1->info.start_time = 24;
-            }
-            iterator_1 = iterator_1->next;
-        }	*/
-        iterator = iterator->next;
-    }
     // print_info(solution);
-    return solution;
+    //return solution;
 }
 
 
@@ -214,7 +215,6 @@ int main()
     printf("n = ");
     scanf("%d", &n);
     */
-
     Node *head;
     init(&head);
 
@@ -240,7 +240,7 @@ int main()
         if (r_start < r_end) {
             new_task->start_time = r_start;
             new_task->end_time = r_end;
-        } 	else {
+        } else {
             new_task->start_time = r_end;
             new_task->end_time = r_start;
         }
@@ -254,7 +254,7 @@ int main()
     // find_min(head);
     //	find_min(head);
     // greedy(head);
-    //backtrack(head);
+    backtrack(head);
     printf("\n________________________");
     // print_info(head);
     head = free_list(head);
