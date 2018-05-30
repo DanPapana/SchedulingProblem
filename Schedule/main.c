@@ -31,9 +31,9 @@ void print_info(Node *head) {
     iterator = head;
     printf("\nTODAY'S ACTIVITIES ARE:\n");
     while (iterator != NULL) {
-        printf("\nActivity:    %s\n", iterator->info.name);
+        printf("\nActivity: %s\n", iterator->info.name);
         printf("Starting time: %d:00\n", iterator->info.start_time);
-        printf("Ending time:   %d:00\n", iterator->info.end_time);
+        printf("Ending time: %d:00\n", iterator->info.end_time);
         iterator = iterator->next;
     }
 }
@@ -48,9 +48,9 @@ void swap(Node *a, Node *b) {
 void print_node(Node *head) {
     if (head != NULL) {
         printf("\n==============================");
-        printf("\nActivity:      %s", head->info.name);
+        printf("\nActivity: %s", head->info.name);
         printf("\nStarting time: %d:00", head->info.start_time);
-        printf("\nEnding time:   %d:00\n", head->info.end_time);
+        printf("\nEnding time: %d:00", head->info.end_time);
     }
 }
 
@@ -73,10 +73,8 @@ Node *sort_end(Node *head) {
 
 Node *greedy(Node *head) {
     Node *parent = head;
-    Node *iterator = head->next;
-    printf("\n*********************************************");
+    Node *iterator = head;
     printf("\nTHE LIST OF TODAY'S ACTIVITIES:\n");
-    printf("**********************************************");
     print_node(parent);
     while (iterator != NULL) {
         while (iterator != parent) {
@@ -92,16 +90,17 @@ Node *greedy(Node *head) {
 Node *find_min(Node *head) {
     Node *iterator = head;
     Node *min = head;
-    while (iterator->next != NULL) {
-
-        if (iterator->info.start_time == min->info.start_time) {
+    while (iterator != NULL) {
+        printf("\nIT: %d", iterator->info.start_time);
+        if (iterator->info.start_time == min->info.start_time)
+        {
             if (iterator->info.end_time < min->info.end_time) {
-                min = iterator;
+                min->info = iterator->info;
             }
-        } else {
-            if (iterator->info.start_time < min->info.start_time) {
-                min = iterator;
-            }
+        }
+        else if (iterator->info.start_time < min->info.start_time)
+        {
+            min->info = iterator->info;
         }
         iterator = iterator->next;
     }
@@ -109,37 +108,47 @@ Node *find_min(Node *head) {
 }
 
 Node *backtrack(Node *head) {
-    Node *solution = malloc(sizeof(Node));
+    Node *solution = head;
     Node *min;
     Node *parent = head;
+    Node *iterator = head;
     Node *iterator_1 = head;
     Node *iterator_2 = head;
 
-    while (iterator_1->next != NULL) {
-        min = find_min(head);
-        while (iterator_2->next != NULL) {
-            iterator_2 = iterator_2->next;
+    while (iterator != NULL) {
+        min = find_min(iterator);
+        print_node(min);
+        /*
+        while (iterator_2 != NULL) {
             if (min->info.end_time <= iterator_2->info.end_time) {
                 parent->next = solution;
-                parent = parent->next;
                 solution->next = min;
-                solution = solution->next;
                 print_node(solution);
-            }
-            else
-            {
+            } else {
                 solution = parent;
             }
+            solution = solution->next;
+            parent = parent->next;
+            iterator_2 = iterator_2->next;
         }
-        iterator_1 = iterator_1->next;
+        	*/
+         /*
+         while (iterator_1 != NULL) {
+            if (iterator_1->info.start_time == min->info.start_time && iterator_1->info.end_time == min->info.end_time) {
+                iterator_1->info.start_time = 24;
+            }
+            iterator_1 = iterator_1->next;
+        }	*/
+        iterator = iterator->next;
     }
-   // print_node(solution);
-   // return solution;
+    // print_info(solution);
+    return solution;
 }
+
 
 Node *free_list(Node *head) {
     Node *iterator = head;
-    Node *parent;
+    Node *parent = head;
     while (iterator != NULL) {
         parent = iterator;
         free(parent);
@@ -174,7 +183,7 @@ char* activities(int choice) {
     case 12:
         return "Running out of ideas";
     case 13:
-        return "Taking these activity names seriously";
+        return "Taking these names seriously";
     case 14:
         return "Cooking";
     case 15:
@@ -182,7 +191,7 @@ char* activities(int choice) {
     case 16:
         return "Drinking a glass of milk";
     case 17:
-        return "Wrongly thinking that I'm somewhat funny";
+        return "Wrongly thinking I'm somewhat funny";
     case 18:
         return "Freaking out";
     case 19:
@@ -195,9 +204,9 @@ char* activities(int choice) {
 int main()
 {
     int i = 0;
-    int n = 2;
-    int r_start; //random starting time
-    int r_end; //random ending time
+    int n = 5;
+    int r_start = 25; //random starting time
+    int r_end = 25; //random ending time
     int s_range = 0; //starting range
     int f_range = 25; //finishing range
     int activity;
@@ -205,13 +214,14 @@ int main()
     printf("n = ");
     scanf("%d", &n);
     */
+
     Node *head;
     init(&head);
 
     Task *new_task = (Task*)malloc(sizeof(Task));
 
     //I have introduced some values which would trigger the while loop
-    while (s_range >= f_range || s_range <= 0 || f_range > 24) {
+    while (s_range >= f_range || s_range < 1 || f_range > 24) {
         printf("\nInsert the working hours (1 to 24):");
         printf("\nStarting time: ");
         scanf("%d", &s_range);
@@ -220,25 +230,35 @@ int main()
     }
 
     while (i < n) {
-        while (r_start >= r_end || r_end > 24 || r_start == new_task->start_time) {
+        while (r_start == r_end || r_start == new_task->start_time || r_end == new_task->start_time || r_start < 1 || r_end < 1 || r_start > 24 || r_end > 24) {
             srand((unsigned)time(NULL));
-            // r_start = s_range + rand()/(RAND_MAX/(f_range - s_range +1) + 1);
-            // r_end = s_range + rand()/(RAND_MAX/(f_range - s_range +1) + 1);
-            r_start = s_range + rand() % (f_range - s_range);
-            r_end = r_start + rand() % (f_range - s_range);
+            r_start = s_range + rand() % f_range;
+            r_end = s_range + rand() % f_range;
         }
         activity = 1 + rand() % 20;
-        new_task->start_time = r_start;
-        new_task->end_time = r_end;
+
+        if (r_start < r_end) {
+            new_task->start_time = r_start;
+            new_task->end_time = r_end;
+        } 	else {
+            new_task->start_time = r_end;
+            new_task->end_time = r_start;
+        }
         new_task->name = activities(activity);
         head = push_beginning(head, new_task);
         i++;
     }
-    //head = sort_end(head);
+
+    head = sort_end(head);
     print_info(head);
-    printf("B E H O L D");
-    head = backtrack(head);
-    //head = greedy(head);
+    // find_min(head);
+    //	find_min(head);
+    // greedy(head);
+    //backtrack(head);
+    printf("\n________________________");
+    // print_info(head);
     head = free_list(head);
+    free(new_task);
     return 0;
 }
+
