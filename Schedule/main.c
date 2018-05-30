@@ -87,26 +87,6 @@ Node *greedy(Node *head) {
     }
 }
 
-Node *find_min(Node *head) {
-    Node *iterator = head;
-    Node *min = head;
-    while (iterator != NULL) {
-        printf("\nIT: %d", iterator->info.start_time);
-        if (iterator->info.start_time == min->info.start_time)
-        {
-            if (iterator->info.end_time < min->info.end_time) {
-                min->info = iterator->info;
-            }
-        }
-        else if (iterator->info.start_time < min->info.start_time)
-        {
-            min->info = iterator->info;
-        }
-        iterator = iterator->next;
-    }
-    return min;
-}
-
 Node *backtrack(Node *head) {
     Node *solution = head;
     Node *min;
