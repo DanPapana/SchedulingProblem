@@ -31,9 +31,9 @@ void print_info(Node *head) {
     iterator = head;
     printf("\nTODAY'S ACTIVITIES ARE:\n");
     while (iterator != NULL) {
-        printf("\nActivity: %s\n", iterator->info.name);
-        printf("Starting time: %d:00\n", iterator->info.start_time);
-        printf("Ending time: %d:00\n", iterator->info.end_time);
+        printf("\nActivity: %s", iterator->info.name);
+        printf("\nStarting time:  %d:00", iterator->info.start_time);
+        printf("\nEnding time:    %d:00\n", iterator->info.end_time);
         iterator = iterator->next;
     }
 }
@@ -49,8 +49,8 @@ void print_node(Node *head) {
     if (head != NULL) {
         printf("\n==============================");
         printf("\nActivity: %s", head->info.name);
-        printf("\nStarting time: %d:00", head->info.start_time);
-        printf("\nEnding time: %d:00", head->info.end_time);
+        printf("\nStarting time:  %d:00", head->info.start_time);
+        printf("\nEnding time:    %d:00", head->info.end_time);
     }
 }
 
@@ -89,7 +89,7 @@ Node *greedy(Node *head) {
 
 Node *backtrack(Node *head) {
     Node *solution = head;
-    Node *min;
+    Node *min = malloc(sizeof(Node));
     Node *parent = head;
     Node *iterator = head;
     Node *iterator_1 = head;
@@ -229,7 +229,7 @@ int main()
         i++;
     }
 
-    head = sort_end(head);
+    //head = sort_end(head);
     print_info(head);
     // find_min(head);
     //	find_min(head);
