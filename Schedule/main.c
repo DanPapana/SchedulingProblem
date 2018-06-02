@@ -125,7 +125,7 @@ Node *backtrack(Node *head) {
 /// Iterator is now min, don't get too confused
         iterator_1 = iterator;
         TF = 0;
-/// If TF = 1 he doesn't fit the criteria
+/// If TF = 1 the node doesn't fit the criteria
         while (iterator_1 != NULL) {
             if (iterator_1->info.end_time < iterator->info.end_time) {
                 TF = 1;
