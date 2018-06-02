@@ -213,7 +213,7 @@ int main()
     int activity;
     Node *head;
     init(&head);
-    Task new_task = (Task)malloc(sizeof(Task));
+    Task *new_task = (Task*)malloc(sizeof(Task));
     printf("\nOdd for greedy, even for the other one: ");
     scanf("%d", &choice);
     printf("\nInsert the number of activities: ");
