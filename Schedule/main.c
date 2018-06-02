@@ -18,6 +18,7 @@ void init(Node **head) {
     *head = NULL;
 }
 
+///adds a node
 Node* push_beginning(Node *list, Task *info) {
     Node *new_node = malloc(sizeof(Node));
     new_node->info = *info;
@@ -26,18 +27,20 @@ Node* push_beginning(Node *list, Task *info) {
     return list;
 }
 
+///prints all the nodes in a mediocre fashion
 void print_info(Node *head) {
     Node *iterator;
     iterator = head;
     printf("\nTODAY'S ACTIVITIES ARE:\n");
     while (iterator != NULL) {
-        printf("\nActivity: %s", iterator->info.name);
-        printf("\nStarting time:  %d:00", iterator->info.start_time);
-        printf("\nEnding time:    %d:00\n", iterator->info.end_time);
+        printf("\nActivity: %s\n", iterator->info.name);
+        printf("Starting time: %d:00\n", iterator->info.start_time);
+        printf("Ending time:   %d:00\n", iterator->info.end_time);
         iterator = iterator->next;
     }
 }
 
+///swaps the information within nodes
 void swap(Node *a, Node *b) {
     Task temp;
     temp = a->info;
@@ -45,19 +48,20 @@ void swap(Node *a, Node *b) {
     b->info = temp;
 }
 
+///prints a node, duh
 void print_node(Node *head) {
     if (head != NULL) {
         printf("\n==============================");
         printf("\nActivity: %s", head->info.name);
-        printf("\nStarting time:  %d:00", head->info.start_time);
-        printf("\nEnding time:    %d:00", head->info.end_time);
+        printf("\nStarting time: %d:00", head->info.start_time);
+        printf("\nEnding time:   %d:00", head->info.end_time);
     }
 }
 
 //A shameless bubble sort
 Node *sort_end(Node *head) {
     Node *parent = head;
-    Node *iterator = head->next;
+    Node *iterator = head;
     while (iterator != NULL) {
         while (iterator != parent) {
             if ((iterator->info.end_time < parent->info.end_time)) {
@@ -71,9 +75,10 @@ Node *sort_end(Node *head) {
     return parent;
 }
 
+///such a great little guy
 Node *greedy(Node *head) {
     Node *parent = head;
-    Node *iterator = head;
+    Node *iterator = head->next;
     printf("\nTHE LIST OF TODAY'S ACTIVITIES:\n");
     print_node(parent);
     while (iterator != NULL) {
@@ -87,46 +92,59 @@ Node *greedy(Node *head) {
     }
 }
 
+/// A modified selection sort. May I still call him backtrack?
 Node *backtrack(Node *head) {
-    Node *solution = head;
-    Node *min = malloc(sizeof(Node));
-    Node *parent = head;
+    Node *min;
+    Node *parent;
     Node *iterator = head;
     Node *iterator_1 = head;
-    Node *iterator_2 = head;
-
+    Node *iterator_min;
+    int TF;
+    printf("\n------BACKTRACKING------\n");
     while (iterator != NULL) {
-        printf("\nIT: %d", iterator->info.start_time);
-        if (iterator->info.start_time == min->info.start_time) {
-            if (iterator->info.end_time < min->info.end_time) {
-                min->info = iterator->info;
+        iterator_min = iterator;
+        min = iterator;
+///this one would be classified as a fancier selection sort
+        while (iterator_min != NULL) {
+            if (iterator_min->info.start_time == min->info.start_time)	 {
+                if (iterator_min->info.end_time < min->info.end_time) {
+                    min = iterator_min;
+                }
             }
+            else if (iterator_min->info.start_time < min->info.start_time) 	{
+                min = iterator_min;
+            }
+            iterator_min = iterator_min->next;
         }
-        else if (iterator->info.start_time < min->info.start_time) {
-            min->info = iterator->info;
+        if (min->info.start_time < iterator->info.start_time) {
+            swap(iterator, min);
+        }
+
+/// Iterator is now min, don't get too confused
+        iterator_1 = iterator->next;
+        TF = 0;
+        while (iterator_1 != NULL) {
+            if (iterator_1->info.end_time < iterator->info.end_time) {
+                TF = 1;
+            }
+            if (parent->info.end_time > iterator->info.start_time) {
+                TF = 1;
+            }
+            iterator_1 = iterator_1->next;
+        }
+        if (TF == 0 && iterator->next != NULL) {
+            print_node(iterator);
+            parent = iterator;
+        }
+        if (iterator->next == NULL && iterator->info.start_time >= parent->info.end_time) {
+            print_node(iterator);
+            parent = iterator;
         }
         iterator = iterator->next;
-        print_node(min);
     }
-        /*
-        while (iterator_2 != NULL) {
-            if (min->info.end_time <= iterator_2->info.end_time) {
-                parent->next = solution;
-                solution->next = min;
-                print_node(solution);
-            } else {
-                solution = parent;
-            }
-            solution = solution->next;
-            parent = parent->next;
-            iterator_2 = iterator_2->next;
-        }
-        	*/
-    // print_info(solution);
-    //return solution;
 }
 
-
+/// This function is not giving anything away, quite the contrary
 Node *free_list(Node *head) {
     Node *iterator = head;
     Node *parent = head;
@@ -137,6 +155,7 @@ Node *free_list(Node *head) {
     return NULL;
 }
 
+/// A list of activities with a STRING of humor
 char* activities(int choice) {
     switch(choice) {
     case 1:
@@ -184,23 +203,23 @@ char* activities(int choice) {
 
 int main()
 {
-    int i = 0;
-    int n = 5;
+    int choice;
+    int iterator = 0;
+    int no_activities;
     int r_start = 25; //random starting time
     int r_end = 25; //random ending time
     int s_range = 0; //starting range
     int f_range = 25; //finishing range
     int activity;
-    /*
-    printf("n = ");
-    scanf("%d", &n);
-    */
     Node *head;
     init(&head);
+    Task new_task = (Task)malloc(sizeof(Task));
+    printf("\nOdd for greedy, even for the other one: ");
+    scanf("%d", &choice);
+    printf("\nInsert the number of activities: ");
+    scanf("%d", &no_activities);
 
-    Task *new_task = (Task*)malloc(sizeof(Task));
-
-    //I have introduced some values which would trigger the while loop
+    ///I have introduced some values which would trigger the while loop
     while (s_range >= f_range || s_range < 1 || f_range > 24) {
         printf("\nInsert the working hours (1 to 24):");
         printf("\nStarting time: ");
@@ -209,36 +228,39 @@ int main()
         scanf("%d", &f_range);
     }
 
-    while (i < n) {
+    while (iterator < no_activities) {
         while (r_start == r_end || r_start == new_task->start_time || r_end == new_task->start_time || r_start < 1 || r_end < 1 || r_start > 24 || r_end > 24) {
             srand((unsigned)time(NULL));
             r_start = s_range + rand() % f_range;
-            r_end = s_range + rand() % f_range;
+            r_end = s_range + rand() %	f_range;
         }
         activity = 1 + rand() % 20;
 
         if (r_start < r_end) {
             new_task->start_time = r_start;
             new_task->end_time = r_end;
-        } else {
+        } 	else {
             new_task->start_time = r_end;
             new_task->end_time = r_start;
         }
         new_task->name = activities(activity);
         head = push_beginning(head, new_task);
-        i++;
+        iterator++;
     }
 
-    //head = sort_end(head);
-    print_info(head);
-    // find_min(head);
-    //	find_min(head);
-    // greedy(head);
-    backtrack(head);
-    printf("\n________________________");
-    // print_info(head);
+    if (choice % 2 == 0) {
+        print_info(head);
+        backtrack(head);
+    } else	{
+        printf("\n_________GREEDY__________\n");
+        head = sort_end(head);
+        print_info(head);
+        head = greedy(head);
+    }
+
+    printf("\n********************************\n");
+
     head = free_list(head);
     free(new_task);
     return 0;
 }
-
