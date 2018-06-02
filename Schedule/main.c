@@ -77,9 +77,11 @@ Node *sort_end(Node *head) {
 
 /// Such a great little guy
 Node *greedy(Node *head) {
-    Node *parent = head;
-    Node *iterator = head->next;
-    printf("\nTHE LIST OF TODAY'S ACTIVITIES:\n");
+    Node *parent = malloc(sizeof(Node));
+    Node *iterator = malloc(sizeof(Node));
+    parent = head;
+    iterator = head->next;
+    printf("\n-------- GREEDY ---------");
     print_node(parent);
     while (iterator != NULL) {
         while (iterator != parent) {
@@ -95,12 +97,13 @@ Node *greedy(Node *head) {
 /// A modified selection sort. May I still call it backtrack?
 Node *backtrack(Node *head) {
     Node *parent = malloc(sizeof(Node));
+    Node *min = malloc(sizeof(Node));
     Node *iterator = head;
     Node *iterator_1 = head;
     Node *iterator_min = head;
-    Node *min = malloc(sizeof(Node));
+
     int TF = 0;
-    printf("\n------BACKTRACKING------\n");
+    printf("\n------ BACKTRACKING ------");
     while (iterator != NULL) {
         iterator_min = iterator;
         min = iterator;
@@ -132,15 +135,10 @@ Node *backtrack(Node *head) {
             }
             iterator_1 = iterator_1->next;
         }
-        if (TF == 0) { //&& iterator->next != NULL) {
+        if (TF == 0) {
             print_node(iterator);
             parent = iterator;
         }
-        /*if (iterator->next == NULL && iterator->info.start_time >= parent->info.end_time) {
-            print_node(iterator);
-            parent = iterator;
-        }
-        */
         iterator = iterator->next;
     }
 }
@@ -215,7 +213,7 @@ int main()
     Node *head;
     init(&head);
     Task *new_task = (Task*)malloc(sizeof(Task));
-    printf("\nOdd for greedy, even for the other one: ");
+    printf("\nOdd for greedy, even for the other one, 0 for both: ");
     scanf("%d", &choice);
     printf("\nInsert the number of activities: ");
     scanf("%d", &no_activities);
@@ -247,8 +245,12 @@ int main()
         head = push_beginning(head, new_task);
         iterator++;
     }
-
-    if (choice % 2 == 0) {
+    if (choice == 0) {
+        print_info(head);
+        backtrack(head);
+        head = sort_end(head);
+        head = greedy(head);
+    } else if (choice % 2 == 0) {
         print_info(head);
         backtrack(head);
     } else	{
