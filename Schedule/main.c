@@ -75,7 +75,7 @@ Node *sort_end(Node *head) {
     return parent;
 }
 
-///such a great little guy
+/// Such a great little guy
 Node *greedy(Node *head) {
     Node *parent = head;
     Node *iterator = head->next;
@@ -92,14 +92,14 @@ Node *greedy(Node *head) {
     }
 }
 
-/// A modified selection sort. May I still call him backtrack?
+/// A modified selection sort. May I still call it backtrack?
 Node *backtrack(Node *head) {
-    Node *min;
-    Node *parent;
+    Node *parent = malloc(sizeof(Node));
     Node *iterator = head;
     Node *iterator_1 = head;
-    Node *iterator_min;
-    int TF;
+    Node *iterator_min = head;
+    Node *min = malloc(sizeof(Node));
+    int TF = 0;
     printf("\n------BACKTRACKING------\n");
     while (iterator != NULL) {
         iterator_min = iterator;
@@ -119,9 +119,9 @@ Node *backtrack(Node *head) {
         if (min->info.start_time < iterator->info.start_time) {
             swap(iterator, min);
         }
-
 /// Iterator is now min, don't get too confused
-        iterator_1 = iterator->next;
+       // iterator_1 = iterator->next;
+        iterator_1 = iterator;
         TF = 0;
         while (iterator_1 != NULL) {
             if (iterator_1->info.end_time < iterator->info.end_time) {
@@ -132,14 +132,15 @@ Node *backtrack(Node *head) {
             }
             iterator_1 = iterator_1->next;
         }
-        if (TF == 0 && iterator->next != NULL) {
+        if (TF == 0) { //&& iterator->next != NULL) {
             print_node(iterator);
             parent = iterator;
         }
-        if (iterator->next == NULL && iterator->info.start_time >= parent->info.end_time) {
+        /*if (iterator->next == NULL && iterator->info.start_time >= parent->info.end_time) {
             print_node(iterator);
             parent = iterator;
         }
+        */
         iterator = iterator->next;
     }
 }
@@ -227,7 +228,6 @@ int main()
         printf("Ending time: ");
         scanf("%d", &f_range);
     }
-
     while (iterator < no_activities) {
         while (r_start == r_end || r_start == new_task->start_time || r_end == new_task->start_time || r_start < 1 || r_end < 1 || r_start > 24 || r_end > 24) {
             srand((unsigned)time(NULL));
@@ -257,10 +257,9 @@ int main()
         print_info(head);
         head = greedy(head);
     }
-
     printf("\n********************************\n");
-
     head = free_list(head);
     free(new_task);
     return 0;
 }
+
