@@ -75,7 +75,7 @@ Node *sort_end(Node *head) {
     return parent;
 }
 
-/// Such a great little guy
+/// Too greedy. Skips through elements.
 Node *greedy(Node *head) {
     Node *parent = malloc(sizeof(Node));
     Node *iterator = malloc(sizeof(Node));
@@ -107,7 +107,7 @@ Node *backtrack(Node *head) {
     while (iterator != NULL) {
         iterator_min = iterator;
         min = iterator;
-///this one would be classified as a fancier selection sort
+/// This one would be classified as a fancier selection sort
         while (iterator_min != NULL) {
             if (iterator_min->info.start_time == min->info.start_time)	 {
                 if (iterator_min->info.end_time < min->info.end_time) {
@@ -123,9 +123,9 @@ Node *backtrack(Node *head) {
             swap(iterator, min);
         }
 /// Iterator is now min, don't get too confused
-       // iterator_1 = iterator->next;
         iterator_1 = iterator;
         TF = 0;
+/// If TF = 1 he doesn't fit the criteria
         while (iterator_1 != NULL) {
             if (iterator_1->info.end_time < iterator->info.end_time) {
                 TF = 1;
