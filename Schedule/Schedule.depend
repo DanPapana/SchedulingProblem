@@ -1,7 +1,16 @@
 # depslib dependency file v1.0
-1527973788 source:c:\users\neuropatic\desktop\dan\schedulingproblem\schedule\main.c
+1528048999 source:c:\users\neuropatic\desktop\dan\schedulingproblem\schedule\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<time.h>
+	"functions.h"
+
+1528048968 source:c:\users\neuropatic\desktop\dan\schedulingproblem\schedule\functions.c
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	"functions.h"
+
+1528049046 c:\users\neuropatic\desktop\dan\schedulingproblem\schedule\functions.h
 
