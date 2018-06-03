@@ -3,7 +3,7 @@
 #include <string.h>
 #include <time.h>
 #include "functions.h"
-/*
+
 typedef struct {
     char *name;
     int start_time;
@@ -18,7 +18,7 @@ typedef struct list {
 void init(Node **head) {
     *head = NULL;
 }
-
+/*
 ///adds a node
 Node* push_beginning(Node *list, Task *info) {
     Node *new_node = malloc(sizeof(Node));

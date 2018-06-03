@@ -1,8 +1,8 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
-struct Task;
-struct Node;
+extern struct Task;
+extern struct Node;
 
 Node *push_beginning(Node *list, Task *info);
 void print_info(Node *head);

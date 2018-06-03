@@ -3,6 +3,17 @@
 #include <math.h>
 #include "functions.h"
 
+typedef struct {
+    char *name;
+    int start_time;
+    int end_time;
+} Task;
+
+typedef struct list {
+    Task info;
+    struct list *next;
+} Node;
+
 ///adds a node
 Node* push_beginning(Node *list, Task *info) {
     Node *new_node = malloc(sizeof(Node));
