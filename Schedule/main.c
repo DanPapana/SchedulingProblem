@@ -31,7 +31,11 @@ int main()
         scanf("%d", &f_range);
     }
 
-/**It iterates while the number of iterations is lower than the total number of activities (no_activities). It then checks if the randomized values are not equal, not bigger than 24 and not smaller than 1. If they are, it randomizes again. If both randomized numbers fit the criteria, it assigns the smaller number to the starting time and the bigger number to the ending time. The activity is also randomly generated, via a number from 1 to 20 as mentioned earlier */
+/**It iterates while the number of iterations is lower than the total number of activities (no_activities).
+It then checks if the randomized values are not equal, not bigger than 24 and not smaller than 1.
+If they are, it randomizes again. If both randomized numbers fit the criteria, it assigns the smaller
+number to the starting time and the bigger number to the ending time. The activity is also randomly generated,
+via a number from 1 to 20 as mentioned earlier */
     while (iterator < no_activities) {
         while (r_start == r_end || r_start == new_task->start_time || r_end == new_task->start_time || r_start < 1 || r_end < 1 || r_start > 24 || r_end > 24) {
             srand((unsigned)time(NULL));
@@ -52,12 +56,12 @@ int main()
     }
     if (choice == 0) {
         print_info(head);
-        backtrack(head);
+        dynamic(head);
         head = sort_end(head);
         head = greedy(head);
     } else if (choice % 2 == 0) {
         print_info(head);
-        backtrack(head);
+        dynamic(head);
     } else	{
         printf("\n_________GREEDY__________\n");
         head = sort_end(head);

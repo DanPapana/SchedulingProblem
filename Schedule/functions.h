@@ -19,7 +19,7 @@ void swap(Node *a, Node *b);
 void print_node(Node *head);
 Node *sort_end(Node *head);
 Node *greedy(Node *head);
-Node *backtrack(Node *head);
+Node *dynamic(Node *head);
 Node *free_list(Node *head);
 char* activities(int choice);
 

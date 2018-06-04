@@ -98,7 +98,7 @@ whether it would be a good fit for the problem's solution. In order to find this
 it compares the value of its ending time with the rest of the nodes. If there are no
 such values and if it fits (its starting time has a bigger value than the previously
 printed node's ending time), its value is printed out using the "print_node" function*/
-Node *backtrack(Node *head) {
+Node *dynamic(Node *head) {
     Node *parent = (Node*)malloc(sizeof(Node));
     Node *min = (Node*)malloc(sizeof(Node));
     Node *iterator = head;
@@ -106,7 +106,7 @@ Node *backtrack(Node *head) {
     Node *iterator_min = head;
 ///TF is an integer, with values 0 and 1, checking whether the minimum nodes fits the required criteria
     int TF = 0;
-    printf("\n------ BACKTRACKING ------");
+    printf("\n------ DYNAMICAL ------");
     while (iterator != NULL) {
         iterator_min = iterator;
         min = iterator;
