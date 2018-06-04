@@ -1,9 +1,18 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
-extern struct Task;
-extern struct Node;
+typedef struct {
+    char *name;
+    int start_time;
+    int end_time;
+} Task;
 
+typedef struct list {
+    Task info;
+    struct list *next;
+} Node;
+
+void init(Node **head);
 Node *push_beginning(Node *list, Task *info);
 void print_info(Node *head);
 void swap(Node *a, Node *b);

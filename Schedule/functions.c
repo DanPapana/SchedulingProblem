@@ -3,27 +3,23 @@
 #include <math.h>
 #include "functions.h"
 
-typedef struct {
-    char *name;
-    int start_time;
-    int end_time;
-} Task;
+///Gets the head of the node and initializes it
+void init(Node **head) {
+    *head = NULL;
+}
 
-typedef struct list {
-    Task info;
-    struct list *next;
-} Node;
-
-///adds a node
+/** Gets a link to the previous first node and the data for the node you want to add
+and adds it at the beginning. It then returns the address of the just-added function */
 Node* push_beginning(Node *list, Task *info) {
-    Node *new_node = malloc(sizeof(Node));
+    Node *new_node = (Node*)malloc(sizeof(Node));
     new_node->info = *info;
     new_node->next = list;
     list = new_node;
     return list;
 }
 
-///prints all the nodes in a mediocre fashion
+/** Gets the head of the node as the first value, then iterates through
+all the nodes, printing all of their information */
 void print_info(Node *head) {
     Node *iterator;
     iterator = head;
@@ -36,7 +32,7 @@ void print_info(Node *head) {
     }
 }
 
-///swaps the information within nodes
+///Gets two nodes as values and swaps their data
 void swap(Node *a, Node *b) {
     Task temp;
     temp = a->info;
@@ -44,7 +40,7 @@ void swap(Node *a, Node *b) {
     b->info = temp;
 }
 
-///prints a node, duh
+///Prints out the information of a desired node in a fancy way
 void print_node(Node *head) {
     if (head != NULL) {
         printf("\n==============================");
@@ -54,7 +50,9 @@ void print_node(Node *head) {
     }
 }
 
-//A shameless bubble sort
+/** Sorts the nodes based on their ending times. The "iterator" node holds the
+value of the current node, while the "parent" node holds the value of the previous one.
+It then returns the values, starting from the previous node*/
 Node *sort_end(Node *head) {
     Node *parent = head;
     Node *iterator = head;
@@ -71,10 +69,13 @@ Node *sort_end(Node *head) {
     return parent;
 }
 
-/// Too greedy. Skips through elements.
+/** Starting from the head of the list, prints out the first element and then iterates
+through all the other elements, with the parent node left slightly behind.
+It then prints out the node that has a starting time with a value bigger
+than that of the previously printed node's ending time*/
 Node *greedy(Node *head) {
-    Node *parent = malloc(sizeof(Node));
-    Node *iterator = malloc(sizeof(Node));
+    Node *parent = (Node*)malloc(sizeof(Node));
+    Node *iterator = (Node*)malloc(sizeof(Node));
     parent = head;
     iterator = head->next;
     printf("\n-------- GREEDY ---------");
@@ -90,20 +91,25 @@ Node *greedy(Node *head) {
     }
 }
 
-/// A modified selection sort. May I still call it backtrack?
+/**Starting from the head node it iterates through all elements, trying to find
+the one with the shortest starting and ending time. It then swaps the found node
+with the value of the current iterator, so it won't be found again. It now checks
+whether it would be a good fit for the problem's solution. In order to find this out,
+it compares the value of its ending time with the rest of the nodes. If there are no
+such values and if it fits (its starting time has a bigger value than the previously
+printed node's ending time), its value is printed out using the "print_node" function*/
 Node *backtrack(Node *head) {
-    Node *parent = malloc(sizeof(Node));
-    Node *min = malloc(sizeof(Node));
+    Node *parent = (Node*)malloc(sizeof(Node));
+    Node *min = (Node*)malloc(sizeof(Node));
     Node *iterator = head;
     Node *iterator_1 = head;
     Node *iterator_min = head;
-
+///TF is an integer, with values 0 and 1, checking whether the minimum nodes fits the required criteria
     int TF = 0;
     printf("\n------ BACKTRACKING ------");
     while (iterator != NULL) {
         iterator_min = iterator;
         min = iterator;
-/// This one would be classified as a fancier selection sort
         while (iterator_min != NULL) {
             if (iterator_min->info.start_time == min->info.start_time)	 {
                 if (iterator_min->info.end_time < min->info.end_time) {
@@ -121,7 +127,6 @@ Node *backtrack(Node *head) {
 /// Iterator is now min, don't get too confused
         iterator_1 = iterator;
         TF = 0;
-/// If TF = 1 the node doesn't fit the criteria
         while (iterator_1 != NULL) {
             if (iterator_1->info.end_time < iterator->info.end_time) {
                 TF = 1;
@@ -139,7 +144,8 @@ Node *backtrack(Node *head) {
     }
 }
 
-/// This function is not giving anything away, quite the contrary
+/**This function passes through elements, deleting them and freeing the memory.
+It returns NULL for dramatic effect*/
 Node *free_list(Node *head) {
     Node *iterator = head;
     Node *parent = head;
@@ -150,7 +156,7 @@ Node *free_list(Node *head) {
     return NULL;
 }
 
-/// A list of activities with a STRING of humor
+/** The program picks a random number from 1 to 20 and then returns a string assigned to that value*/
 char* activities(int choice) {
     switch(choice) {
     case 1:
@@ -193,6 +199,8 @@ char* activities(int choice) {
         return "Studying";
     case 20:
         return "Eating";
+    default:
+        return "Baking bacon pancakes";
     }
 }
 
