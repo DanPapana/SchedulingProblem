@@ -15,7 +15,7 @@ Node* push_beginning(Node *list, Task *info) {
     new_node->info = *info;
     new_node->next = list;
     list = new_node;
-    return list;
+    return list; ///the link to the new node
 }
 
 /** Gets the head of the node as the first value, then iterates through
@@ -33,11 +33,11 @@ void print_info(Node *head) {
 }
 
 ///Gets two nodes as values and swaps their data
-void swap(Node *a, Node *b) {
+void swap(Node *node_a, Node *node_b) {
     Task temp;
-    temp = a->info;
-    a->info = b->info;
-    b->info = temp;
+    temp = node_a->info;
+    node_a->info = node_b->info;
+    node_b->info = temp;
 }
 
 ///Prints out the information of a desired node in a fancy way
@@ -54,12 +54,12 @@ void print_node(Node *head) {
 value of the current node, while the "parent" node holds the value of the previous one.
 It then returns the values, starting from the previous node*/
 Node *sort_end(Node *head) {
-    Node *parent = head;
-    Node *iterator = head;
+    Node *parent = head; ///the previous node
+    Node *iterator = head; ///the current node
     while (iterator != NULL) {
         while (iterator != parent) {
             if ((iterator->info.end_time < parent->info.end_time)) {
-                swap(iterator, parent);
+                swap(iterator, parent); ///<swaps the current node with the previous node
             }
             parent = parent->next;
         }
@@ -104,9 +104,10 @@ Node *dynamic(Node *head) {
     Node *iterator = head;
     Node *iterator_1 = head;
     Node *iterator_min = head;
-///TF is an integer, with values 0 and 1, checking whether the minimum nodes fits the required criteria
+///<TF is an integer, with values 0 and 1, checking whether the minimum node fits the required criteria
     int TF = 0;
     printf("\n------ DYNAMICAL ------");
+///This is a selection sort
     while (iterator != NULL) {
         iterator_min = iterator;
         min = iterator;
@@ -127,6 +128,7 @@ Node *dynamic(Node *head) {
 /// Iterator is now min, don't get too confused
         iterator_1 = iterator;
         TF = 0;
+/// Now it checks whether the chosen minimum node fits the criteria
         while (iterator_1 != NULL) {
             if (iterator_1->info.end_time < iterator->info.end_time) {
                 TF = 1;
@@ -136,6 +138,7 @@ Node *dynamic(Node *head) {
             }
             iterator_1 = iterator_1->next;
         }
+/// If it hadn't changed, it concludes that this is indeed a solution
         if (TF == 0) {
             print_node(iterator);
             parent = iterator;

@@ -6,9 +6,9 @@
 
 int main()
 {
-    int choice;
-    int iterator = 0;
-    int no_activities;
+    int choice;///<used to choose an algorithm
+    int iterator = 0; ///<an iterator
+    int no_activities; ///<the total number of activities
     int r_start = 25; ///<random starting time
     int r_end = 25; ///<random ending time
     int s_range = 0; ///<starting range
